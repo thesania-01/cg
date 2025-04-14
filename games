@@ -1,0 +1,103 @@
+strings.xml
+
+
+<resources>
+    <string name="app_name">My Application</string>
+
+
+        <!-- Game Names Array -->
+        <string-array name="games">
+            <item>Clash of Clans</item>
+            <item>PUBG</item>
+            <item>Solitaire</item>
+            <item>Clash Royale</item>
+            <item>FIFA</item>
+            <item>Call of Duty</item>
+            <item>Counter Strike</item>
+            <item>Quake 4</item>
+            <item>Among Us</item>
+            <item>League of Legends</item>
+        </string-array>
+
+
+
+</resources>
+
+
+
+mainActivity.kt
+
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Get the ListView and TextView
+        val lstView = findViewById<ListView>(R.id.lstView)
+        val txtGame = findViewById<TextView>(R.id.txtGame)
+
+        // Create an adapter to display the games list
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.games)
+        )
+
+        // Set the adapter to the ListView
+        lstView.adapter = adapter
+
+        // Set the click listener for items in the ListView
+        lstView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedGame = parent.getItemAtPosition(position) as String
+                // Show a Toast with the selected game
+                Toast.makeText(this, "Selected: $selectedGame", Toast.LENGTH_SHORT).show()
+                // Update the TextView with the selected game
+                txtGame.text = selectedGame
+            }
+    }
+}
+
+
+
+activity_main.xml( under layouts  in res folder)
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- TextView to display selected game -->
+    <TextView
+        android:id="@+id/txtGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Game will be displayed here"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif" />
+
+    <!-- ListView to display list of games -->
+    <ListView
+        android:id="@+id/lstView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
