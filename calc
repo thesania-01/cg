@@ -1,0 +1,228 @@
+MainActivity.kt
+
+
+package com.example.calcproj
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import java.util.Locale
+
+class MainActivity : AppCompatActivity() {
+    private var num1 = 0.0f
+    private var num2 = 0.0f
+    private var result = 0.0f
+    private var op = ' '
+    private var hasDot = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val txtDisplay = findViewById<TextView>(R.id.txtDisplay)
+
+        val numberButtons = listOf(
+            R.id.btnOne to "1",
+            R.id.btnTwo to "2",
+            R.id.btnThree to "3",
+            R.id.btnFour to "4",
+            R.id.btnFive to "5",
+            R.id.btnSix to "6",
+            R.id.btnSeven to "7",
+            R.id.btnEight to "8",
+            R.id.btnNine to "9",
+            R.id.btnZero to "0"
+        )
+
+        numberButtons.forEach { (id, value) ->
+            findViewById<Button>(id).setOnClickListener {
+                txtDisplay.append(value)
+            }
+        }
+
+        findViewById<Button>(R.id.btnDot).setOnClickListener {
+            if (!hasDot) {
+                txtDisplay.append(".")
+                hasDot = true
+            }
+        }
+
+        findViewById<Button>(R.id.btnSum).setOnClickListener {
+            num1 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            op = '+'
+            txtDisplay.text = ""
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnMinus).setOnClickListener {
+            num1 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            op = '-'
+            txtDisplay.text = ""
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnMul).setOnClickListener {
+            num1 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            op = '*'
+            txtDisplay.text = ""
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnDiv).setOnClickListener {
+            num1 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            op = '/'
+            txtDisplay.text = ""
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnPer).setOnClickListener {
+            num1 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            op = '%'
+            txtDisplay.text = ""
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnEqual).setOnClickListener {
+            num2 = txtDisplay.text.toString().toFloatOrNull() ?: 0f
+            result = when (op) {
+                '+' -> num1 + num2
+                '-' -> num1 - num2
+                '*' -> num1 * num2
+                '/' -> if (num2 != 0f) num1 / num2 else 0f
+                '%' -> if (num2 != 0f) (num1 / num2) * 100 else 0f
+                else -> 0f
+            }
+            txtDisplay.text = String.format(Locale.US, "%.2f", result)
+            hasDot = false
+        }
+
+        findViewById<Button>(R.id.btnDel).setOnClickListener {
+            val text = txtDisplay.text.toString()
+            if (text.isNotEmpty()) {
+                txtDisplay.text = text.substring(0, text.length - 1)
+                if (!txtDisplay.text.contains(".")) {
+                    hasDot = false
+                }
+            }
+        }
+
+        findViewById<Button>(R.id.btnC).setOnClickListener {
+            txtDisplay.text = ""
+            num1 = 0f
+            num2 = 0f
+            result = 0f
+            op = ' '
+            hasDot = false
+        }
+    }
+}
+
+
+
+
+
+activity_main.xml
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:gravity="end|center_vertical"
+            android:textSize="24sp"
+            android:padding="10dp"
+            android:background="#EEE" />
+    </LinearLayout>
+
+    <!-- Row 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnDel" android:text="DEL"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnC" android:text="C"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnPer" android:text="%"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnSum" android:text="+"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Row 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnOne" android:text="1"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnTwo" android:text="2"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnThree" android:text="3"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnDiv" android:text="/"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Row 3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnFour" android:text="4"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnFive" android:text="5"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnSix" android:text="6"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnMinus" android:text="-"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Row 4 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnSeven" android:text="7"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnEight" android:text="8"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnNine" android:text="9"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnMul" android:text="X"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Row 5 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnDot" android:text="."
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnZero" android:text="0"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+        <Button android:id="@+id/btnEqual" android:text="="
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>
