@@ -1,0 +1,82 @@
+activity_main.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/waterfall"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/butterfly"
+        android:layout_gravity="center"
+        android:contentDescription="ImageView"/>
+
+    <Button
+        android:id="@+id/btnChangeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Image"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
+
+
+
+MainActivity.kt
+
+
+package com.example.imagechanger
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Get references to the Button, LinearLayout, and ImageView
+        val btnImage = findViewById<Button>(R.id.btnChangeImage)
+        val ll = findViewById<LinearLayout>(R.id.linearlayout)
+        val img = findViewById<ImageView>(R.id.img)
+
+        // Variable to keep track of the current state
+        var i = 0
+
+        // Set OnClickListener for the button
+        btnImage.setOnClickListener {
+            if (i == 0) {
+                // Change Image to butterfly
+                img.setImageResource(R.drawable.butterfly)
+
+                // Change Background to waterfall
+                ll.setBackgroundResource(R.drawable.waterfall)
+
+                // Update the state
+                i = 1
+            } else if (i == 1) {
+                // Change Image to waterfall
+                img.setImageResource(R.drawable.waterfall)
+
+                // Change Background to butterfly
+                ll.setBackgroundResource(R.drawable.butterfly)
+
+                // Update the state
+                i = 0
+            }
+        }
+    }
+}
+
