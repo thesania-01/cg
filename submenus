@@ -1,0 +1,106 @@
+MainActivity.kt
+
+
+package com.example.practical1
+
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_home -> {
+                Toast.makeText(this, "Home Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_profile -> {
+                Toast.makeText(this, "Profile Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_notifications -> {
+                Toast.makeText(this, "Notifications Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_privacy -> {
+                Toast.makeText(this, "Privacy Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_about -> {
+                Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}
+
+
+
+menu.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:title="Home" />
+
+    <item
+        android:title="Settings">   <!-- Parent Menu Item -->
+        <menu>                      <!-- Submenu starts here -->
+
+            <item
+                android:id="@+id/menu_profile"
+                android:title="Profile" />
+            <item
+                android:id="@+id/menu_notifications"
+                android:title="Notifications" />
+            <item
+                android:id="@+id/menu_privacy"
+                android:title="Privacy" />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_about"
+        android:title="About" />
+
+</menu>
+
+
+
+activity_main_xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submenu Demo App"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
