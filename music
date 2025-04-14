@@ -1,0 +1,75 @@
+In the Project Explorer, right-click on the res folder.
+
+Select:
+New → Android Resource Directory.
+
+In the dialog:
+
+Set Directory Name: raw
+
+Set Resource Type: raw
+
+Click OK.
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Music" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Music"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+
+
+MainActivity.kt
+
+package com.example.myapplication
+
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class MainActivity : AppCompatActivity() {
+
+    // Step 4: Declare MediaPlayer at the class level
+    lateinit var mediaPlayer: MediaPlayer
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Step 5: Initialize buttons and set click listeners
+        val btnPlay = findViewById<Button>(R.id.btnPlay)
+        val btnStop = findViewById<Button>(R.id.btnStop)
+
+        btnPlay.setOnClickListener {
+            mediaPlayer = MediaPlayer.create(this, R.raw.music)
+            mediaPlayer.start()
+        }
+
+        btnStop.setOnClickListener {
+            if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+                mediaPlayer.release()
+            }
+        }
+    }
+}
+
+
